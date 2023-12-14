@@ -1,21 +1,25 @@
 #include "monty.h"
 
 /**
- * add_nodes - adds the top two elements of the stack
- * @stack: pointer to a pointer pointing to the top of the node stack
- * @line_number: int representing the linenumber of the opcode
- */
-
-void add_nodes(stack_t **stack, unsigned int line_number)
+ * addnode - add node to the head stack
+ * @head: head of the stack
+ * @n: new_value
+ * Return: no return
+*/
+void addnode(stack_t **head, int n)
 {
-	int sum;
 
-	if (stack == NULL || *stack == NULL || (*stack)->next == NULL)
-		more_err(8, line_number, "add");
+	stack_t *new_node, *aux;
 
-	(*stack) = (*stack)->next;
-	sum = (*stack)->n + (*stack)->prev->n;
-	(*stack)->n = sum;
-	free((*stack)->prev);
-	(*stack)->prev = NULL;
+	aux = *head;
+	new_node = malloc(sizeof(stack_t));
+	if (new_node == NULL)
+	{ printf("Error\n");
+		exit(0); }
+	if (aux)
+		aux->prev = new_node;
+	new_node->n = n;
+	new_node->next = *head;
+	new_node->prev = NULL;
+	*head = new_node;
 }

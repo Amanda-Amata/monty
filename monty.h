@@ -39,33 +39,38 @@ typedef struct instruction_s
         void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
-extern stack_t *head;
-typedef void (*op_func)(stack_t **, unsigned int);
+/**
+ * struct bus_s - variables -args, file, line content
+ * @arg: value
+ * @file: pointer to monty file
+ * @content: line content
+ * @lifi: flag change stack <-> queue
+ * Description: carries values through the program
+ */
+typedef struct bus_s
+{
+	char *arg;
+	FILE *file;
+	char *content;
+	int lifi;
+}  bus_t;
+extern bus_t bus;
 
-/*file operations*/
-void open_file(char *file_name);
-int parse_line(char *buffer, int line_number, int format);
-void read_file(FILE *);
-int len_chars(FILE *);
-void find_func(char *, char *, int, int);
+char *_realloc(char *ptr, unsigned int old_size, unsigned int new_size);
+ssize_t getstdin(char **lineptr, int file);
+char  *clean_line(char *content);
+void f_push(stack_t **head, unsigned int number);
+void f_pall(stack_t **head, unsigned int number);
+void f_pint(stack_t **head, unsigned int number);
+int execute(char *content, stack_t **head, unsigned int counter, FILE *file);
+void free_stack(stack_t *head);
+void f_pop(stack_t **head, unsigned int count);
+void f_swap(stack_t **head, unsigned int count);
+void f_add(stack_t **head, unsigned int count);
+void f_nop(stack_t **head, unsigned int count);
 
-/*Stack operations*/
-stack_t *create_node(int n);
-void free_nodes(void);
-void print_stack(stack_t **, unsigned int);
-void add_to_stack(stack_t **, unsigned int);
-void add_to_queue(stack_t **, unsigned int);
-
-void call_fun(op_func, char *, char *, int, int);
-
-void print_top(stack_t **, unsigned int);
-void pop_top(stack_t **, unsigned int);
-void nop(stack_t **, unsigned int);
-void swap_nodes(stack_t **, unsigned int);
-void add_nodes(stack_t **, unsigned int);
-
-/*Error hanlding*/
-void err(int error_code, ...);
-void more_err(int error_code, ...);
-
+void addnode(stack_t **head, int n);
+void addqueue(stack_t **head, int n);
+void f_queue(stack_t **head, unsigned int count);
+void f_stack(stack_t **head, unsigned int count);
 #endif /* Monty */
